@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+{% block title %}Codecool Series Database{% endblock %}
+<button type="button" class="btn btn-light"><a href="/">BACK</a>
+{% block content %}
+
+    <h1>Episodes</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Show</th>
+                <th>Season</th>
+                <th>Episode</th>
+                <th>Overview</th>
+                <th>More info</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for episode in episodes %}
+            <tr>
+                <td>{{ episode.title }}</td>
+                <td>{{ episode.show_title }}</td>
+                <td>{{ episode.season_number }}</td>
+                <td>{{ episode.episode_number }}</td>
+                <td>{{ episode.overview }}</td>
+                <td>
+                    <button class="show-actors-btn" data-show-id="{{ episode.show_id }}">Show Actors</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'layout.html' %}
+{% block title %}Codecool Series Database{% endblock %}
+{% block content %}
+
+    <section>
+        <div class="card">
+            <button type="button" class="btn btn-light"><a href="/">BACK</a>
+
+        </div>
+        <div class="card">
+            <h2>Actors</h2>
+            <ul>
+                {% for actor in actors %}
+                    <li>
+                        <a href="#" class="actor-link" data-id="{{ actor.id }}">{{ actor.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        </div>
+    </section>
+    <footer>
+        Copyright, bla-bla
+    </footer>
+    <!-- Modal -->
+    <div class="modal fade" id="actorModal" tabindex="-1" role="dialog" aria-labelledby="actorModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="actorModalLabel">Actor Details</h5>
+                </div>
+                <div class="modal-body">
+                    <!-- Content here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('.actor-link').click(function (event) {
+                event.preventDefault();
+                var actorId = $(this).data('id');
+                $.ajax({
+                    url: '/actors/' + actorId,
+                    method: 'GET',
+                    success: function (data) {
+                        let showsList = data.shows.map(show => `<li><a href="#" class="show-link" data-id="${show.id}">${show.title}</a></li>`).join('');
+                        $('.modal-body').html(`
+                        <p>Name: ${data.actor.name}</p>
+                        <h3>Shows:</h3>
+                        <ul>
+                            ${showsList}
+                        </ul>
+                    `);
+                        $('#actorModal').modal('show');
+
+                        // click event to show links
+                        $('.show-link').click(function (event) {
+                            event.preventDefault();
+                            var showId = $(this).data('id');
+                            window.location.href = '/show/' + showId + '/';
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    </div>
+
+    <div class="background">
+        <div class="dark-blue-layer"></div>
+        <div class="light-blue-layer"></div>
+    </div>
+{% endblock %}
